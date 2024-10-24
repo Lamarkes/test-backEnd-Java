@@ -5,45 +5,47 @@ import com.testbackend.uol.dto.UsuarioDTO;
 import com.testbackend.uol.enums.HeroGrupo;
 import com.testbackend.uol.model.Usuario;
 import com.testbackend.uol.repository.UsuarioRepository;
-import com.testbackend.uol.util.HeroClassConfiguration;
+import com.testbackend.uol.util.LigaChoice;
+import com.testbackend.uol.util.VingadoresChoice;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioService {
 
 
-    private final HeroClassConfiguration configuration;
     private final UsuarioRepository usuarioRepository;
+    private final VingadoresChoice vingadoresChoiceStrategy;
+    private final LigaChoice ligaChoiceStrategy;
 
 
-    public UsuarioService(HeroClassConfiguration configuration, UsuarioRepository usuarioRepository) {
-        this.configuration = configuration;
-        this.usuarioRepository = usuarioRepository;
+    public List<UsuarioDTO> getAll(){
+
+        return usuarioRepository.findAll().stream().map(UsuarioDTO::new).toList();
+
     }
 
-
-    public UsuarioDTO saveUsuario(UsuarioDTO usuario){
+    public UsuarioDTO saveUsuario(UsuarioDTO usuario) {
         var entity = new Usuario(usuario);
-        String codinome = "";
-        if (usuario.getGrupo().getValue().equals(HeroGrupo.VINGADORES.getValue())){
-            var list = usuarioRepository.getUsuarioByCodinome();
+        String codinome;
+        List<String> list;
 
-            do {
-                codinome = configuration.getVingador();
-            } while (list.contains(codinome));
+        if (entity.getGrupo().getValue().equals(HeroGrupo.VINGADORES.getValue())) {
+            list = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
 
-        }else if (usuario.getGrupo().getValue().equals(HeroGrupo.LIGADAJUSTICA.getValue())){
+            codinome = vingadoresChoiceStrategy.choiceHeroClass(list);
+        }else{
+            list = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
 
-            var list = usuarioRepository.getUsuarioByCodinome();
-
-            do {
-                codinome = configuration.getLigaDaJustica();
-            } while (list.contains(codinome));
+            codinome = ligaChoiceStrategy.choiceHeroClass(list);
         }
 
         entity.setCodinome(codinome);
 
         return new UsuarioDTO(usuarioRepository.save(entity));
-    }
+        }
 }

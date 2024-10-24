@@ -3,7 +3,7 @@ package com.testbackend.uol.util;
 
 import com.testbackend.uol.client.LigaDaJusticaClient;
 import com.testbackend.uol.client.VingadoresClient;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.random.RandomGenerator;
 
 
-@Configuration
+@Component
 public class HeroClassConfiguration {
 
 
