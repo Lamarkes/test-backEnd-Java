@@ -33,25 +33,48 @@ public class UsuarioService {
         return usuarioRepository.getUsuarioByEmail(email);
     }
 
+    public Usuario getUsuarioById(Long id){
+
+        return usuarioRepository.getUsuarioById(id);
+    }
+
     public UsuarioDTO saveUsuario(UsuarioDTO usuario) {
         var entity = new Usuario(usuario);
         String codinome = "";
-        List<String> list;
+        List<String> listUsuariosGrupo;
 
         if (entity.getGrupo().getValue().equals(HeroGrupo.VINGADORES.getValue())) {
-            list = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
+            listUsuariosGrupo = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
 
-            codinome = vingadoresChoiceStrategy.choiceHeroClass(list);
+            codinome = vingadoresChoiceStrategy.choiceHeroClass(listUsuariosGrupo);
         }
         if(entity.getGrupo().getValue().equals(HeroGrupo.LIGADAJUSTICA.getValue())){
-            list = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
+            listUsuariosGrupo = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
 
-            codinome = ligaChoiceStrategy.choiceHeroClass(list);
+            codinome = ligaChoiceStrategy.choiceHeroClass(listUsuariosGrupo);
         }
 
         entity.setCodinome(codinome);
 
         return new UsuarioDTO(usuarioRepository.save(entity));
+        }
+
+
+        public void updateUsuario(Long id, Usuario usuario){
+            Usuario usuarioAtualizado = usuarioRepository.getUsuarioById(id);
+
+            usuarioAtualizado.setNome(usuario.getNome());
+            usuarioAtualizado.setEmail(usuario.getEmail());
+            usuarioAtualizado.setTelefone(usuario.getTelefone());
+
+            usuarioRepository.save(usuarioAtualizado);
+
+        }
+
+        public void deleteUsuario(Long id){
+            var user = usuarioRepository.getUsuarioById(id);
+
+            usuarioRepository.delete(user);
         }
 
 }

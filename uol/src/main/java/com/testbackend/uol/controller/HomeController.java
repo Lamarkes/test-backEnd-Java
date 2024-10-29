@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -52,7 +53,6 @@ public class HomeController {
             );
         }
 
-
         if (result.hasErrors()){
             return "clients/create";
         }
@@ -60,5 +60,61 @@ public class HomeController {
         usuarioService.saveUsuario(usuarioDTO);
 
         return "redirect:/users/create";
+    }
+
+
+    @GetMapping("/users/edit")
+    public String showEditPage(
+            Model model, @RequestParam Long id
+    ){
+        Usuario user = usuarioService.getUsuarioById(id);
+        if (user == null){
+            return "redirect:/clients";
+        }
+        model.addAttribute("user", user);
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setNome(user.getNome());
+        usuarioDTO.setEmail(user.getEmail());
+        usuarioDTO.setGrupo(user.getGrupo());
+        usuarioDTO.setTelefone(user.getTelefone());
+
+        model.addAttribute("usuarioDTO", usuarioDTO);
+
+        return "clients/edit";
+    }
+
+    @PostMapping("/users/edit")
+    public String updateClient(Model model, @RequestParam Long id,
+                               @Valid @ModelAttribute("usuarioDTO") UsuarioDTO usuarioDTO, BindingResult result){
+
+
+        Usuario user = usuarioService.getUsuarioById(id);
+        if (user == null){
+            return "redirect:/users";
+        }
+
+        model.addAttribute("user", user);
+
+        if (result.hasErrors()){
+            return "redirect:/users/edit";
+        }
+
+        user.setNome(usuarioDTO.getNome());
+        user.setEmail(usuarioDTO.getEmail());
+        user.setTelefone(usuarioDTO.getTelefone());
+
+        usuarioService.updateUsuario(id, user);
+
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/delete")
+    public String deleteClient(@RequestParam Long id){
+
+        usuarioService.deleteUsuario(id);
+
+        return "redirect:/users";
+
     }
 }

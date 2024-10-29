@@ -25,25 +25,17 @@ public class UsuarioController {
     }
 
 
-//    @GetMapping
-//    public ResponseEntity<List<Usuario>> getAll(){
-//
-//        return ResponseEntity.status(HttpStatus.FOUND).body(usuarioService.getAll());
-//    }
-
     @GetMapping
-    public String getPlayers(Model model){
-        List<Usuario> users = usuarioService.getAll();
-        model.addAttribute("users", users);
-        return "clients/index";
+    public ResponseEntity<List<Usuario>> getAll(){
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(usuarioService.getAll());
     }
 
+    @PostMapping("/new")
+    public ResponseEntity<UsuarioDTO> saveUsuario(@Valid @RequestBody UsuarioDTO dto){
 
-//    @PostMapping("/new")
-//    public ResponseEntity<UsuarioDTO> saveUsuario(@Valid @RequestBody UsuarioDTO dto){
-//
-//        var usuarioCriado = usuarioService.saveUsuario(dto);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCriado);
-//    }
+        var usuarioCriado = usuarioService.saveUsuario(dto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCriado);
+    }
 }

@@ -14,17 +14,15 @@
     <table class="table">
         <thead>
             <tr>
-            <th>id</th>
-            <th>nome</th>
-            <th>email</th>
-            <th>telefone</th>
-            <th>codinome</th>
-            <th>grupo</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Telefone</th>
+            <th>Codinome</th>
+            <th>Grupo</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
             <tr th:each="users : ${users}">
-                <td th:text="${users.id}"></td>
                 <td th:text="${users.nome}"></td>
                 <td th:text="${users.email}"></td>
                 <td th:text="${users.telefone}"></td>

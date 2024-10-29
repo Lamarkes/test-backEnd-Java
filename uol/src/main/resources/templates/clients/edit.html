@@ -8,9 +8,17 @@
 <div class="container py-3">
     <div class="row">
         <div class="col-md-8 mx-auto rounded border p-4 m-4">
-            <h2 class="text-center mb-5">Cadastro do jogador UOL</h2>
+            <h2 class="text-center mb-5">Editar jogador</h2>
 
             <form method="post" th:object="${usuarioDTO}">
+
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label" for="id">id</label>
+                    <div class="col-sm-8">
+                        <input readonly class="form-control-plaintext" th:value="${user.id}" id="id">
+                    </div>
+                </div>
+
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label" for="nome">Nome</label>
                     <div class="col-sm-8">
@@ -41,29 +49,9 @@
                     </div>
                 </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Quero ser do grupo:</label>
-                    <div class="col-sm-8">
-                        <label>
-                            <input type="radio" name="grupo" th:field="*{grupo}" value="LIGADAJUSTICA">
-                            Liga da Justiça
-                        </label><br>
-                        <label>
-                            <input type="radio" name="grupo" th:field="*{grupo}" value="VINGADORES">
-                            Os Vingadores
-                        </label>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-sm-8 offset-sm-4">
-                        <p th:if="${errorMessage}" class="text-danger" th:text="${errorMessage}"></p>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="offset-sm-4 col-sm-4 d-grid">
-                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
                     </div>
                     <div class="col-sm-4 d-grid">
                         <a class="btn btn-outline-primary" href="/users">Cancelar</a>
