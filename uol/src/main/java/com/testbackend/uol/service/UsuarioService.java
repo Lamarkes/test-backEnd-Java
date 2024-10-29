@@ -23,22 +23,27 @@ public class UsuarioService {
     private final LigaChoice ligaChoiceStrategy;
 
 
-    public List<UsuarioDTO> getAll(){
+    public List<Usuario> getAll(){
 
-        return usuarioRepository.findAll().stream().map(UsuarioDTO::new).toList();
+        return usuarioRepository.findAll();
 
+    }
+
+    public UsuarioDTO getByEmail(String email){
+        return usuarioRepository.getUsuarioByEmail(email);
     }
 
     public UsuarioDTO saveUsuario(UsuarioDTO usuario) {
         var entity = new Usuario(usuario);
-        String codinome;
+        String codinome = "";
         List<String> list;
 
         if (entity.getGrupo().getValue().equals(HeroGrupo.VINGADORES.getValue())) {
             list = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
 
             codinome = vingadoresChoiceStrategy.choiceHeroClass(list);
-        }else{
+        }
+        if(entity.getGrupo().getValue().equals(HeroGrupo.LIGADAJUSTICA.getValue())){
             list = usuarioRepository.getCodinomeByGrupo(entity.getGrupo());
 
             codinome = ligaChoiceStrategy.choiceHeroClass(list);
@@ -48,4 +53,5 @@ public class UsuarioService {
 
         return new UsuarioDTO(usuarioRepository.save(entity));
         }
+
 }

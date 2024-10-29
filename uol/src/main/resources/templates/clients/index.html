@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+
+<nav th:replace="~{layout :: page_navbar}"></nav>
+
+
+<div class="container py-3">
+
+    <h1 class="text-center my-4"> Jogadores cadastrados</h1>
+    <a class="btn btn-primary mb-3" href="/users/create">Cadastrar Jogador</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+            <th>id</th>
+            <th>nome</th>
+            <th>email</th>
+            <th>telefone</th>
+            <th>codinome</th>
+            <th>grupo</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr th:each="users : ${users}">
+                <td th:text="${users.id}"></td>
+                <td th:text="${users.nome}"></td>
+                <td th:text="${users.email}"></td>
+                <td th:text="${users.telefone}"></td>
+                <td th:text="${users.codinome}"></td>
+                <td th:text="${users.grupo}"></td>
+
+                <td style="white-space:nowrap">
+                    <a class="btn btn-primary btn-sm"
+                       th:href="@{/users/edit(id=${users.id})}">Editar</a>
+
+                    <a class="btn btn-danger btn-sm"
+                       th:href="@{/users/delete(id=${users.id})}"
+                       onclick="return confirm('Are you sure?')">Excluir</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="~{layout :: page_footer}"></footer>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

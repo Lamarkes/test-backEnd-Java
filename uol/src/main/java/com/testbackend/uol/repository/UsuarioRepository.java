@@ -1,5 +1,6 @@
 package com.testbackend.uol.repository;
 
+import com.testbackend.uol.dto.UsuarioDTO;
 import com.testbackend.uol.enums.HeroGrupo;
 import com.testbackend.uol.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("SELECT u.codinome FROM Usuario u WHERE u.grupo = ?1")
     List<String> getCodinomeByGrupo(HeroGrupo grupo);
+
+    @Query("SELECT u FROM Usuario u WHERE u.email= ?1")
+    UsuarioDTO getUsuarioByEmail(String email);
+
 }

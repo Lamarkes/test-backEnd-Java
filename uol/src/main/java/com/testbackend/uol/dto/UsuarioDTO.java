@@ -2,25 +2,24 @@ package com.testbackend.uol.dto;
 
 import com.testbackend.uol.enums.HeroGrupo;
 import com.testbackend.uol.model.Usuario;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class UsuarioDTO {
 
-    @NotNull
+    @NotEmpty(message = "O nome deve ser informado!")
     private String nome;
-    @NotNull
+    @NotEmpty(message = "O email deve ser informado!")
+    @Email(message = "infome um email valido")
     private String email;
-
     private String telefone;
-
-    @NotNull
     private HeroGrupo grupo;
 
 
